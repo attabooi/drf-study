@@ -2,8 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 # Create your models here.
 
-
-
 # custom user model 사용 시 UserManager 클래스와 create_user, create_superuser 함수가 정의되어 있어야 함
 class UserManager(BaseUserManager):
     def create_user(self, username, password=None):
@@ -29,11 +27,11 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    username = models.CharField("사용자 계정", max_length=20, unique=True)
-    email = models.EmailField("이메일 주소", max_length=100)
-    password = models.CharField("비밀번호", max_length=128)
-    fullname = models.CharField("이름", max_length=20)
-    join_date = models.DateTimeField("가입일", auto_now_add=True)
+    username = models.CharField(max_length=20, unique=True)
+    email = models.EmailField(max_length=100)
+    password = models.CharField(max_length=128)
+    fullname = models.CharField(max_length=20)
+    join_date = models.DateTimeField(auto_now_add=True)
 
 		# is_active가 False일 경우 계정이 비활성화됨
     is_active = models.BooleanField(default=True) 
@@ -74,3 +72,6 @@ class UserProfile(models.Model):
     introduction = models.TextField("소개")
     birthday = models.DateField("생일")
     age = models.IntegerField("나이")
+
+    # def __str__(self):
+    #     return self.user

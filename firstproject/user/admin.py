@@ -3,4 +3,5 @@ from user.models import User, UserManager, UserProfile
 
 
 admin.site.register(User)
+admin.site.register(UserProfile)
 

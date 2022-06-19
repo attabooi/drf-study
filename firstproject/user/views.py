@@ -1,17 +1,37 @@
 from django.shortcuts import render
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
 from django.views.decorators.csrf import csrf_exempt
 
-class UserApiView(APIView):
-    # 로그인
-    @csrf_exempt # 한번하고 지우기
+from django.db.models import F
+
+from user.models import UserProfile
+from blog.models import Article
+
+from user.serializers import UserSerializer
+
+
+
+
+class UserApiView(APIView):   
+    permission_classes = [permissions.AllowAny]
+    http_method_names = ['get', 'head', 'post']
+    
+
+        #사용자 정보 조회
+
+    def get(self, request):
+        user = request.user
+        return Response(UserSerializer(user).data)
+
     def post(self, request):
         username = request.data.get('username', '')
         password = request.data.get('password', '')
+        print(username)
+        print(password)
 
         user = authenticate(request, username=username, password=password)
         if not user:
