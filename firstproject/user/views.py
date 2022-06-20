@@ -8,11 +8,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 from django.db.models import F
 
-from user.models import UserProfile
+from user.models import UserProfile, User
 from blog.models import Article
 
 from user.serializers import UserSerializer
-
 
 
 
@@ -39,4 +38,31 @@ class UserApiView(APIView):
 
         login(request, user)
         return Response({"message": "로그인 성공!!"}, status=status.HTTP_200_OK)
+
+
+class UserView(APIView):
+    
+    
+
+
+    # 회원가입
+    def post(self, request):
+   
+        password = request.data.pop("password")
+        user = User(**request.data)
+        user.set_password(password)
+        user.save()
+
+        return Response({"message": "회원가입 성공!!"}, status=status.HTTP_200_OK)
+
+
+        # serializer = UserSignupSerializer(date=request.data)
+        # if serializer.is_valid():
+        #     serializer.save()
+        #     return Response({"message":"가입 완료!"})
+        # else:
+        #     print(serializer.errors)
+        #     return Response({"message":"가입 실패!"})
+        
+
 

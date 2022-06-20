@@ -7,8 +7,12 @@ from blog.models import Article, Comment
 class ArticleSerializer(serializers.ModelSerializer):
     articles_user = serializers.SerializerMethodField()
 
+
+    # category = serializer.SerializerMethodField()
+    # def get_category(self, obj):
+    #     return [category.name for category in obj.category.all()]
+    
     def get_articles_user(self,obj):
-        print(obj)
         return obj.author.username
 
     class Meta:
@@ -19,11 +23,10 @@ class CommentSerializer(serializers.ModelSerializer):
     comments_user = serializers.SerializerMethodField()
 
     def get_comments_user(self,obj):
-        print(obj)
         return obj.author.username
     class Meta:
         model = Comment
-        fields = ["comment","comments_user"]
+        fields = ["comment", "comments_user"]
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,9 +35,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     article_set = ArticleSerializer(many=True)
+    #articles = ArticleSerializer(many=True, source="article_set")
     comment_set = CommentSerializer(many=True)
     userprofile = UserProfileSerializer()
-    print(userprofile)
+    print(comment_set)
     class Meta:
         model = User
         fields = ["username","userprofile","article_set","comment_set"]
+
+
