@@ -35,7 +35,7 @@ class ArticleView(APIView): # CBV 방식
         
         
         title = request.data.get('title','')
-        categories = request.data.get('categories','')
+        category = request.data.get('category','')
         body = request.data.get('body','')
         start_date = request.data.get('start_date','')
 
@@ -45,19 +45,33 @@ class ArticleView(APIView): # CBV 방식
         if len(body) <= 20:
             return Response({'error': '글 길이가 20글자 이하라면 글을 작성할 수 없습니다.'})
 
-        if categories is not None:
+        if category is not None:
+            # categories = Category.objects.get(category=categories)
+            
+
             create_article = Article.objects.create(
             author = request.user,
             title = title,
             body = body,
             start_date = start_date,
         )
-            print(categories)
-            categories = Category.objects.get(category=categories)
+            
+            
 
+
+
+            category = Category.objects.get(category=category)
+            print(type(category))
+
+
+            number = category.id
+            print(number)
+
+            create_article.save()
 
             
-            create_article.save()
+
+            create_article.category.add(number)
 
             return Response({'message': '글 작성 성공!'})
         else:

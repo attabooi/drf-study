@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'user',
     'blog',
     'rest_framework',
+    'product',
 ]
 
 REST_FRAMEWORK = {
