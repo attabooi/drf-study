@@ -47,6 +47,6 @@ class Article(models.Model):
 class Comment(models.Model):
     author = models.ForeignKey('user.User', verbose_name="작성자", on_delete=models.CASCADE)
     article = models.ForeignKey('Article', verbose_name="게시물", on_delete=models.CASCADE)
-    comment = models.CharField(("댓글 내용"), max_length=100)
+    comment = models.CharField(("댓글 내용"), max_length=100, default="")
 
 

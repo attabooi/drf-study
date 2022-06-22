@@ -58,3 +58,22 @@ class IsAdminOrIsAuthenticatedPostOnly(BasePermission):
         # print(f"three days ago date : {datetime.now() - timedelta(days=7)}")
         return bool(user.is_authenticated and 
         request.user.join_date < (timezone.now() - timedelta(minutes=1)))
+
+
+class RegistedMoreThanThreeDaysUser(BasePermission):
+    """
+    가입일 기준 3일 이상 지난 사용자만 접근 가능
+    """
+    SAFE_METHODS = ('GET', )
+    message = '가입 후 3일 이상 지난 사용자만 글을 작성하실 수 있습니다.'
+    
+    def has_permission(self, request, view):
+
+        if bool(request.user and request.user.join_date < (timezone.now() - timedelta(days=3))) is True:
+            return True
+
+        elif request.method in self.SAFE_METHODS:
+            return True
+        
+        else:
+            return False
